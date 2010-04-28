@@ -1,0 +1,103 @@
+{% extends "layout-split-2.html" %}
+{% load reporters-tags %}
+{% load pagination-tags %}
+
+{% block title %}Facility User{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript" src="/static/reporters/javascripts/clear-form-elements.js"></script>
+<script type="text/javascript" src="/static/reporters/javascripts/cloneable.js"></script>
+{% endblock %}
+
+{% block page_tabs %}
+<!--<ul id="page-tabs">
+	<li class="page"><a href="/reporters">Reporters</a></li>
+	<li class="page"><a href="/reporters/groups">Groups</a></li>
+</ul>-->
+{% endblock %}
+
+{% block left %}
+<div class="module">
+	<h2>Facility Users</h2>
+        <h3>
+            {% if search_string %}
+            <a href="">Search for <span class="highlight">{{ search_string }}</span></a>
+            {% endif %}
+        </h3>
+        <div class="span-12">
+            <form method="get" id="search">
+                <input name="q" type="text" value="{{ search_string }}" />
+                <input type="submit" value="Search" />
+            </form>
+        </div>
+        
+        <div style="text-align:right;">
+            <a href="/testers/add" class="add"> Add a new Facility User </a>
+        </div>
+
+	<table class="sortable">
+            {% for column, display in columns %}
+		<col{% ifequal column sort_column %} class="sorted"{% endifequal %} />
+            {% endfor %}
+		<thead>
+			
+			{% for column, display in columns %}
+			{% ifequal column sort_column %}
+				<th class="sorted {% if sort_descending %}descending{% else %}ascending{% endif %}">
+					<a href="?q={{ search_string }}&sort_descending={% if sort_descending %}false{% else %}true{% endif %}&sort_column={{ column }}" title="Sort by {{ display }}{% if sort_descending %} (asc){% endif %}">
+						{{ display }}
+					</a>
+				</th>
+			{% else %}
+				<th><a href="?q={{ search_string }}&sort_column={{ column }}" title="Sort by {{ display }}">{{ display }}</a></th>
+			{% endifequal %}
+                        {% endfor%}
+                        
+                        <!--Un sorted columns-->
+                        <th scope="col">Phonenumber</th>
+			<th scope="col">Facility</th>
+                        <th scope="col">Last Seen</th>
+                        <th scope="col">Action</th>
+			
+		</thead>
+		<tbody>{% if reporters.object_list %}{% for reporter in reporters.object_list %}
+			
+                        <tr>
+				<!--<td><a href="{% self_link "reporter" reporter.pk %}"{% if reporter.full_name %}>{{ reporter.full_name }}{% else %} class="unknown">Unknown{% endif %}</a></td>-->
+				<td><a href="/testers/{{ reporter.pk }}"{% if reporter.last_name %}>{{ reporter.last_name }}{% else %} class="unknown">Unknown{% endif %}</a></td>
+                                <td><a href="/testers/{{ reporter.pk }}"{% if reporter.first_name %}>{{ reporter.first_name }}{% else %} class="unknown">Unknown{% endif %}</a></td>
+				<td>{% if reporter.connection %}{{ reporter.connection.identity }}{% else %}<span class="na">None</span>{% endif %}</td>
+                                <td>None</td>
+                                <td>{% if reporter.last_seen %}{{ reporter.last_seen }} {% else %} <span class="na">Never</span>{% endif %}</td>
+                                
+                                <td>
+                                    <a href="/testers/{{ reporter.pk }}">Edit</a> |
+                                    <a href="/testers/{{ reporter.pk }}/delete">Delete</a>
+                                </td>
+			</tr>{% endfor %}{% else %}
+			<tr class="no-data">
+				<td colspan="3">
+					No Facility User Yet.
+					<a href="/testers/add" class="add">
+						Add a Facility User
+					</a>
+				</td>
+			</tr>{% endif %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="3">
+					{% paginator reporters %}
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+	<div class="toolbar">
+		<!--<a href="/reporters/add" class="add">Add a Reporter</a>-->
+	</div>
+</div>
+{% endblock %}
+
+{% block right %}
+
+{% endblock %}

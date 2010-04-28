@@ -1,0 +1,84 @@
+{% extends "layout-split-2.html" %}
+{% load pagination-tags %}
+{% load region-tags %}
+
+{% block hq-stylesheets %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/domain/stylesheets/sfb.css?version=3"/>
+{% endblock hq-stylesheets %}
+
+<!--Reporter and ReporterProfile will make up a tester and tie him to a domain
+here its easier to live to just change the ui to create the feelin of tester-->
+
+{% block right %}
+<!--<div class="module">-->
+<div class="span-12" style="margin-left:auto; margin-right:auto; float:none">
+    <form class="sfb clear" method="post" id="fm-facilitys-add" action="/facilities/{% if facility %}{{ facility.pk }}{% else %}add{% endif %}">
+        <h3>{% if facility %}Edit Facility - {{ facility.name }} [{{ facility.location }}] {% else %}Add a facility{% endif %}</h3>
+        <!--<div>-->
+        <div class="span-5 clear">
+            <div style="float:right;">
+                <label for="fm-facility-add-name">Name</label>
+            </div>
+        </div>
+        <div class="span-2">
+            <input type="text" class="required" id="fm-facility-add-name" name="name"{% if facility %} value="{{ facility.name }}"{% endif %} />
+        </div>
+        <!--<div>-->
+        <div class="span-5 clear">
+            <div style="float:right;">
+                <label for="fm-facility-add-description">Description</label>
+            </div>
+        </div>
+        <div class="span-2">
+                <input type="text" class="required" id="fm-facility-add-description" name="description"{% if facility %} value="{{ facility.description }}"{% endif %} />
+        </div>
+        <!--<div>-->
+          <div class="span-5 clear">
+            <div style="float:right;">
+                <label for="fm-point-add-location">Location</label>
+            </div>
+        </div>
+        <div class="span-2">
+                <select name="location">
+                        <option>-----------------</option>{% for location in locations %}
+                        <option value="{{ location.pk }}" class="depth-{{ location.depth }}"{% if location %}{% ifequal location facility.location %} selected="selected"{% endifequal %}{% endif %}>{{ location }}</option>{% endfor %}
+                 </select>
+                <!--<p class="help">This is a facility type</p>-->
+        </div>
+
+        
+        <div class="span-5 clear">
+            <div style="float:right;">
+                <label for="fm-point-add-longitude">Longitude</label>
+            </div>
+        </div>
+        <div class="span-2">
+                <input type="text" class="required" id="fm-facility-add-longitude" name="longitude"{% if facility.longitude %} value="{{ facility.longitude }}"{% endif %} />
+        </div>
+
+        <div class="span-5 clear">
+            <div style="float:right;">
+                <label for="fm-point-add-longitude">Latitude</label>
+            </div>
+        </div>
+        <div class="span-2">
+                <input type="text" class="required" id="fm-facility-add-latitude" name="latitude"{% if facility.latitude %} value="{{ facility.latitude }}"{% endif %} />
+        </div>
+
+
+
+        <div class="submit">
+            <!--<button type="submit" /> {% if point %}Save Changes{% else %}Add Sampling Point{% endif %}</button>-->
+            <input type="submit" value="{% if facility %}Save Changes{% else %}Add facility{% endif %}" />{% if facility %}
+            <input type="submit" name="delete" value="Delete facility" />{% endif %}
+        </div>
+    </form>
+</div>
+<div class="sfb clear">&zwnj;</div>
+<div class="span-12" style="margin-left:auto; margin-right:auto; float:none">
+    <div class="sfb clear">
+        <br>
+        <a href="/facilities"><-- back to facility list</a>
+    </div>
+</div>
+{% endblock %}

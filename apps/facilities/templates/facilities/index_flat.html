@@ -1,0 +1,76 @@
+{% extends base_template %}
+{% load pagination-tags %}
+
+{% block title %}facility Log{% endblock %}
+
+{% block page_stylesheets %}
+<link type="text/css" rel="stylesheet" href="/static/logger/stylesheets/logger.css" />
+{% endblock %}
+
+{% block content %}
+<h1>
+    <a href="">Facilities</a>{% if search_string %}
+    / <a href="">Search for <span class="highlight">{{ search_string }}</span></a>{% endif %}
+</h1>
+<div class="span-12">
+<form method="get" id="search">
+    <input name="q" type="text" value="{{ search_string }}" />
+    <input type="submit" value="Search" />
+</form>
+</div>
+
+<div class="span-12 last" style="text-align:right;">
+    <a href="/facilities/add" class="add">Add a new facility</a>
+</div>
+
+<table class="sortable">
+	{% for column, display in columns %}
+		<col {% ifequal column sort_column %} class="sorted"{% endifequal %} />
+	{% endfor %}
+
+	<thead>
+		{% for column, display in columns %}
+			{% ifequal column sort_column %}
+				<th class="sorted {% if sort_descending %}descending{% else %}ascending{% endif %}">
+					<a href="?q={{ search_string }}&sort_descending={% if sort_descending %}false{% else %}true{% endif %}&sort_column={{ column }}" title="Sort by {{ display }}{% if sort_descending %} (asc){% endif %}">
+						{{ display }}
+					</a>
+				</th>
+			{% else %}
+				<th><a href="?q={{ search_string }}&sort_column={{ column }}" title="Sort by {{ display }}">{{ display }}</a></th>
+			{% endifequal %}
+		{% endfor%}
+
+                <!--An action table head-->
+                <th>Action</th>
+        </thead>
+
+
+	<tbody>
+		{% for facility in facilities.object_list %}
+			<tr>
+                                <td>{{facility.added_date|date:"d-M-Y" }}</td>
+                                <td>{{facility.name}}</td>
+                                <td>{{facility.location}}</td>
+                                <td>{{facility.description}}</td>
+                                <!--<td>{{facility.status}}</td>-->
+                                <!--Action on a facility edit, delete-->
+                                <td>
+                                    <a href="/facilities/{{ facility.pk }}">Edit</a> |
+                                    <a href="/facilities/{{ facility.pk }}/delete">Delete</a>
+                                    <!--<button name="Edit" type="submit" value="Edit">Edit</button>
+                                    <button name="Delete" type="submit" value="Edit">Delete</button>-->
+                                </td>
+			</tr>
+		{% endfor %}
+	</tbody>
+
+	<tfoot>
+		<tr>
+			<td colspan="5">
+				{% paginator facilities %}
+			</td>
+		</tr>
+	</tfoot>
+</table>
+{% endblock %}

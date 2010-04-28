@@ -1,0 +1,99 @@
+{% extends "layout-split-2.html" %}
+{% load pagination-tags %}
+{% load region-tags %}
+
+{% block hq-stylesheets %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/domain/stylesheets/sfb.css?version=3"/>
+{% endblock hq-stylesheets %}
+
+<!--Reporter and ReporterProfile will make up a tester and tie him to a domain
+here its easier to live to just change the ui to create the feelin of tester-->
+
+{% block right %}
+<!--<div class="module">-->
+<div class="span-12" style="margin-left:auto; margin-right:auto; float:none">
+    <form class="sfb clear" method="post" id="fm-resources-add" action="/resources/{% if resource %}{{ resource.pk }}{% else %}add{% endif %}">
+        <h3>{% if resource %}Edit Resource - {{ resource.name }} [{{ resource.code }}] {% else %}Add a resource{% endif %}</h3>
+        <!--<div>-->
+        <div class="span-5 clear">
+            <div style="float:right;">
+                <label for="fm-resource-add-name">Name</label>
+            </div>
+        </div>
+        <div class="span-2">
+            <input type="text" class="required" id="fm-resource-add-name" name="name"{% if resource %} value="{{ resource.name }}"{% endif %} />
+        </div>
+        <!--<div>-->
+        <div class="span-5 clear">
+            <div style="float:right;">
+                <label for="fm-resource-add-code">Code</label>
+            </div>
+        </div>
+        <div class="span-2">
+                <input type="text" class="required" id="fm-resource-add-code" name="code"{% if resource %} value="{{ resource.code }}"{% endif %} />
+        </div>
+        <!--<div>-->
+          <div class="span-5 clear">
+            <div style="float:right;">
+                <label for="fm-point-add-category">Category</label>
+            </div>
+        </div>
+        <div class="span-2">
+                <select name="category">
+                        <option></option>{% for category in categories %}
+                        <option value="{{ category.pk }}" class="depth-{{ category.depth }}"{% if category %}{% ifequal category resource.category %} selected="selected"{% endifequal %}{% endif %}>{{ category }}</option>{% endfor %}
+                 </select>
+                <!--<p class="help">This is a resource type</p>-->
+        </div>
+
+        <div class="span-5 clear">
+            <div style="float:right;">
+                <label for="fm-point-add-facilitity">Facility</label>
+            </div>
+        </div>
+        <div class="span-2">
+                <select name="facility">
+                        <option></option>{% for facility in facilities %}
+                        <option value="{{ facility.pk }}" class="depth-{{ facility.depth }}"{% if facility %}{% ifequal facility resource.facility %} selected="selected"{% endifequal %}{% endif %}>{{ facility }}</option>{% endfor %}
+                 </select>
+                <!--<p class="help">This is a resource type</p>-->
+        </div>
+        <!--<div>-->
+        <div class="span-5 clear">
+            <div style="float:right;">
+                <label for="fm-point-add-digest">Status</label>
+            </div>
+        </div>
+        <div class="span-2">
+                <select name="status">
+                        <option></option>{% for stat in status %}
+                        <option value="{{ stat.pk }}" class="depth-{{ stat.depth }}"{% if stat %}{% ifequal stat resource.status %} selected="selected"{% endifequal %}{% endif %}>{{ stat }}</option>{% endfor %}
+                 </select>
+        </div>
+
+        <div class="span-5 clear">
+            <div style="float:right;">
+                <label for="fm-point-add-digest">Is Active</label>
+            </div>
+        </div>
+        <div class="span-2">
+                <input type="checkbox" name="digest" {% if resource.is_active %}checked="checked"{% endif %}/>
+        </div>
+
+
+
+        <div class="submit">
+            <!--<button type="submit" /> {% if point %}Save Changes{% else %}Add Sampling Point{% endif %}</button>-->
+            <input type="submit" value="{% if resource %}Save Changes{% else %}Add Resource{% endif %}" />{% if resource %}
+            <input type="submit" name="delete" value="Delete resource" />{% endif %}
+        </div>
+    </form>
+</div>
+<div class="sfb clear">&zwnj;</div>
+<div class="span-12" style="margin-left:auto; margin-right:auto; float:none">
+    <div class="sfb clear">
+        <br>
+        <a href="/resources"><-- back to resources list</a>
+    </div>
+</div>
+{% endblock %}
