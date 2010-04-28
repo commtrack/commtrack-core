@@ -1,5 +1,3 @@
-AquaTest is the product of CommTrack
-
 CommTrack is build on CommCare-HQ
 Commcare-HQ Overall project structure.
 
