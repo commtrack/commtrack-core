@@ -191,7 +191,7 @@ def add_resources(req):
 
             facility = Facility.objects.get(pk = req.POST.get("facility",""))
             resource.facility = facility
-
+            
             resource.name = req.POST.get("name","")
             resource.code = req.POST.get("code","")
 
@@ -311,3 +311,97 @@ def comma(string_or_list):
     else:
         list = string_or_list
         return ", ".join(list)
+
+def resource_requests(req):
+    """
+        display resource supply requests from the user within the domain.
+    """
+#    resource_req = ResourceSupplyRequest.objects.all()
+    template_name="resources/requests.html"
+
+    columns = (("request_date", "Date Of Request"),
+               ("user", "Requester"),
+               ("resource", "Resource"),
+               ("request_remarks", "Remarks"),
+               ("status", "Status"))
+    sort_column, sort_descending = _get_sort_info(req, default_sort_column="request_date",
+                                                  default_sort_descending=True)
+    sort_desc_string = "-" if sort_descending else ""
+    search_string = req.REQUEST.get("q", "")
+
+    query = ResourceSupplyRequest.objects.order_by("%s%s" % (sort_desc_string, sort_column))
+
+    if search_string == "":
+        query = query.all()
+
+    else:
+        query = query.filter(
+           Q(status__icontains=search_string)|
+           Q(user__first_name__icontains=search_string)|
+           Q(resource__name__icontains=search_string)|
+           Q(resource__code__icontains=search_string)|
+           Q(user__last_name__icontains=search_string))
+
+    resource_reqs = paginated(req, query)
+    return render_to_response(req, template_name, {"columns": columns,
+                                                   "resource_reqs": resource_reqs,
+                                                   "sort_column": sort_column,
+                                                   "sort_descending": sort_descending,
+                                                   "search_string": search_string})
+
+@login_and_domain_required
+def accept_resource_requests(req, pk):
+    resource_req = get_object_or_404(ResourceSupplyRequest, pk=pk)
+    resource_req.status = 'Accepted'
+    resource_req.save()
+
+#    transaction.commit()
+    id = int(pk)
+    return message(req,
+        "A resource request %d is Accepted" % (id),
+        link="/resources/requests")
+
+@login_and_domain_required
+def deny_resource_requests(req, pk):
+    resource_req = get_object_or_404(ResourceSupplyRequest, pk=pk)
+    resource_req.status = 'Denied'
+    resource_req.save()
+
+#    transaction.commit()
+    id = int(pk)
+    return message(req,
+        "A resource request %d is Denied" % (id),
+        link="/resources/requests")
+
+def resource_history(req):
+    """
+        display resources' history
+    """
+    template_name="resources/history.html"
+
+    columns = (("date", "Date Of Request"),
+               ("name", "Name"),
+               ("code", "Code"),
+               ("Facility", "Current Location"))
+#               ("New", "Prev Location")) #previous location  
+    sort_column, sort_descending = _get_sort_info(req, default_sort_column="date",
+                                                  default_sort_descending=True)
+    sort_desc_string = "-" if sort_descending else ""
+    search_string = req.REQUEST.get("q", "")
+
+    query = Resource.objects.order_by("%s%s" % (sort_desc_string, sort_column))
+
+    if search_string == "":
+        query = query.all()
+
+    else:
+        query = query.filter(
+           Q(status__icontains=search_string)|
+           Q(user__first_name__icontains=search_string))
+
+    history = paginated(req, query)
+    return render_to_response(req, template_name, {"columns": columns,
+                                                   "history": history,
+                                                   "sort_column": sort_column,
+                                                   "sort_descending": sort_descending,
+                                                   "search_string": search_string})

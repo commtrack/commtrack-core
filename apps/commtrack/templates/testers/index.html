@@ -67,8 +67,14 @@
 				<td><a href="/testers/{{ reporter.pk }}"{% if reporter.last_name %}>{{ reporter.last_name }}{% else %} class="unknown">Unknown{% endif %}</a></td>
                                 <td><a href="/testers/{{ reporter.pk }}"{% if reporter.first_name %}>{{ reporter.first_name }}{% else %} class="unknown">Unknown{% endif %}</a></td>
 				<td>{% if reporter.connection %}{{ reporter.connection.identity }}{% else %}<span class="na">None</span>{% endif %}</td>
-                                <td>None</td>
-                                <td>{% if reporter.last_seen %}{{ reporter.last_seen }} {% else %} <span class="na">Never</span>{% endif %}</td>
+                                <!--Query reporters profile for assigned facility-->
+				
+				<td>
+				{% for profile in profiles %}
+				      {% ifequal reporter profile.reporter %}{{ profile.facility }}{% endifequal %}
+				{% endfor %}
+				</td>
+				<td>{% if reporter.last_seen %}{{ reporter.last_seen }} {% else %} <span class="na">Never</span>{% endif %}</td>
                                 
                                 <td>
                                     <a href="/testers/{{ reporter.pk }}">Edit</a> |

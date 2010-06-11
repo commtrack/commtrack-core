@@ -152,11 +152,12 @@ here its easier to live to just change the ui to create the feelin of tester-->
         <div class="span-2">
             <select name="facility">
                     <option></option>{% for facility in facilities %}
-                    <option value="{{ facility.pk }}" class="depth-{{ facility.depth }}"{% ifequal facility reporter.facility %} selected="selected"{% endifequal %}>{{ facility.name }}</option>
+		    <!-- reporter.faciltity does not exist the facility reside on the reporter Profile   -->
+                    <option value="{{ facility.pk }}" class="depth-{{ facility.depth }}"{% ifequal facility reporter_profile.facility %} selected="selected"{% endifequal %}>{{ facility.name }}</option>
             {% endfor %}
             </select>
         </div>{% else %}
-
+      
         <div class="span-2">
             No Facilities Yet.
             <a href="/facilities/add" class="add">

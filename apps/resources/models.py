@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from reporters.models import Reporter
 from facilities.models import Facility
 
+#import audit
+
 #TODO:  Domain in the hp app is much similiar to the
 #       the facility in the commtrack. hence a simple verbose
 #       name will do the trick, to bring a bit of feeling and
@@ -24,20 +26,29 @@ class ResourceCategory(models.Model):
     '''
     name = models.CharField(max_length=50)
     description = models.TextField(null=True, blank=True)
-
+    
     class Meta:
         verbose_name = 'Resource Category'
         verbose_name_plural = 'Resource Categories'
 
     def __unicode__(self):
         return self.name
+    
+    def __str__(self):
+        return "%s" % (self.name,)
 
 class Status(models.Model):
     '''
         The status (or condition) of a resource. eg Good, Normal
     '''
     status = models.CharField(max_length=50)
-
+    
+    class Meta:
+        verbose_name_plural = 'status'
+    
+    def __str__(self):
+        return self.status
+    
     def __unicode__(self):
         return self.status
 
@@ -51,6 +62,10 @@ class Resource(models.Model):
     category = models.ForeignKey(ResourceCategory, blank=True, null=True)
     code = models.CharField(max_length=256, help_text='unique identifier of the resource')
 
+#    add domin to a resource to allow 
+#    each domain to have it's own resource before assignin any to a facility
+#    domain = models.ForeignKey(Domain)
+
 #   TODO: location shuld be linkin to a facility, create a facility app.
 #   a facility shuld be in a domain.
     facility = models.ForeignKey(Facility, blank=True, null=True)
@@ -59,28 +74,46 @@ class Resource(models.Model):
     status_change_count = models.IntegerField(default=0)
     date_added = models.DateTimeField(default=datetime.datetime.now())
     is_active = models.BooleanField(default=True)
-
+    
     def __unicode__(self):
         return self.name
-
+    
+    def __str__(self):
+        return self.name
+    
 class TrackResource(models.Model):
     resource = models.ForeignKey(Resource)
     user = models.ForeignKey(Reporter)
     date_tracked = models.DateTimeField(default=datetime.datetime.now())
     status = models.ForeignKey(Status)
     description = models.CharField(max_length=256, null=True, blank=True)
-
+    
     def __unicode__(self):
         return '%s : %s' % (self.resource, self.date_tracked)
 
+    def __str__(self):
+        return '%s tracked %s' % (self.resource.name, self.date_tracked)
+    
 class ResourceSupplyRequest(models.Model):
+    REQUEST_STATUS_CHOICES= (
+            ('pending','Pending'),
+            ('accepted','Accepted'),
+            ('denied','Denied'),
+    )
     user = models.ForeignKey(Reporter)
     resource = models.ForeignKey(Resource)
     request_date = models.DateTimeField(default=datetime.datetime.now())
     request_remarks = models.CharField(max_length=256, null=True, blank=True)
-#    user is assign to a domain, and/or facility
-#    facility = models.ForeignKey(Facility)
-
+    status = models.CharField(max_length=10, choices=REQUEST_STATUS_CHOICES, default=REQUEST_STATUS_CHOICES[0])
+        
     def __unicode__(self):
         return '%s' % (self.user)
+
+    def __str__(self):
+        return '%s requested by %s' % (self.resource.name, self.user)
     
+#    def set_status(self,status=0):
+#        ''' A function to set status'''
+#        self.status = REQUEST_STATUS_CHOICES[status]
+#        self.save()
+#        return True

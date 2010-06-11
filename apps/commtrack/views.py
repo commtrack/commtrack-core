@@ -44,6 +44,8 @@ from reporters.utils import *
 from reporters.views import message, check_reporter_form, update_reporter
 #from reporters.models import Reporter, PersistantBackend, PersistantConnection
 from reporters.models import *
+from hq.models import ReporterProfile
+from facilities.models import Facility
 
 logger_set = False
 
@@ -110,11 +112,11 @@ def index(req):
     reporters = paginated(req, query)
     # TODO: get the facility from the reporter profile
     #       and make if sortable.
-    profile = ReporterProfile.objects.all()
+    profiles = ReporterProfile.objects.filter(domain=req.user.selected_domain)
 
     return render_to_response(req, template_name, {"columns": columns,
                                                    "reporters": reporters,
-                                                   "profile": profile,
+                                                   "profiles": profiles,
                                                    "sort_column": sort_column,
                                                    "sort_descending": sort_descending,
                                                    "search_string": search_string})
@@ -206,7 +208,8 @@ def add_testers(req):
             # create reporter profile
             update_reporterprofile(req, rep, req.POST.get("chw_id", ""), \
                                    req.POST.get("alias", ""), \
-                                   req.POST.get("e_mail", ""))
+                                   req.POST.get("e_mail", ""),\
+                                   req.POST.get("facility",""))
             # save the changes to the db
             transaction.commit()
 
@@ -234,7 +237,7 @@ def edit_testers(req, pk):
     rep.chw_id = rep_profile.chw_id
     rep.chw_username = rep_profile.chw_username
     rep.e_mail = rep_profile.e_mail
-
+    
     def get(req):
         return render_to_response(req,
             "testers/testers.html", {
@@ -250,6 +253,8 @@ def edit_testers(req, pk):
                 # their own vars, to avoid coding in the template
                 "connections": rep.connections.all(),
                 "groups":      rep.groups.all(),
+                'facilities':   Facility.objects.filter(domain = req.user.selected_domain),
+                'reporter_profile': rep_profile,
                 "reporter":    rep })
 
     @transaction.commit_manually
@@ -293,7 +298,8 @@ def edit_testers(req, pk):
                 # update reporter profile
                 update_reporterprofile(req, rep, req.POST.get("chw_id", ""), \
                                        req.POST.get("chw_username", ""), \
-                                       req.POST.get("e_mail", ""))
+                                       req.POST.get("e_mail", ""), \
+                                       req.POST.get("facility",""))
 
                 # no exceptions, so no problems
                 # commit everything to the db
@@ -328,7 +334,7 @@ def delete_testers(req, pk):
         link="/testers")
 
 
-def update_reporterprofile(req, rep, chw_id, chw_username, e_mail):
+def update_reporterprofile(req, rep, chw_id, chw_username, e_mail, facility=None):
     try:
         profile = ReporterProfile.objects.get(reporter=rep)
     except ReporterProfile.DoesNotExist:
@@ -340,6 +346,11 @@ def update_reporterprofile(req, rep, chw_id, chw_username, e_mail):
     profile.chw_id = chw_id
     profile.chw_username = chw_username
     profile.e_mail = e_mail
+    if facility:
+        fac = Facility.objects.get(id = facility)
+        profile.facility = fac
+    else:
+        profile.facility = None
     profile.save()
 
 def check_profile_form(req):
