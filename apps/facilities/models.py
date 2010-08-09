@@ -15,12 +15,10 @@ class Facility(models.Model):
     description = models.TextField(null=True, blank=True)
     location = models.ForeignKey(Location, help_text='the geographical location where this facility is, eg city, town')
     added_date = models.DateTimeField(default = datetime.now())
-#    history = audit.AuditTrail()
-    # Point co-ordinates of a facility
-#    latitude  = models.DecimalField(max_digits=8, decimal_places=6, blank=True, null=True, help_text="The physical latitude of this location")
-#    longitude = models.DecimalField(max_digits=8, decimal_places=6, blank=True, null=True, help_text="The physical longitude of this location")
+    # history = audit.AuditTrail()
     # geodjango - point for the facility location.
     point = models.PointField(null=True, blank=True)
+
     objects = models.GeoManager()
 
     class Meta:
