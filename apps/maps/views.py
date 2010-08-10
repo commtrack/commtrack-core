@@ -1,4 +1,7 @@
 import datetime
+#import simplejson as json
+from django.utils import simplejson as json
+
 
 from django.db.models.query_utils import Q
 from django.shortcuts import get_object_or_404
@@ -11,7 +14,7 @@ from django.core.exceptions import *
 from domain.decorators import login_and_domain_required
 from rapidsms.webui.utils import render_to_response, paginated
 from facilities.models import Facility
-
+from maps.utils import encode_myway
 @login_and_domain_required
 def index(req):
     facilities = Facility.objects.all().order_by('name')
@@ -20,7 +23,6 @@ def index(req):
                               'mapindex.html',
                               {'facilities': facilities},                              
                               )
-
 
 @login_and_domain_required
 def facilities(req):

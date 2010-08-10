@@ -22,19 +22,18 @@
     
     
 <script  type="text/javascript">
-    var samplingpointByID = {};
-    {% for samplingpoint in facilities %}
-     samplingpointByID[{{samplingpoint.id}}] = {name: "{{samplingpoint.name}}", 
-                                                lat: {{samplingpoint.point.y}},
-                                                lng: {{samplingpoint.point.x}},
-                                                };
-    {% endfor %}
-
+	var samplingpointByID = {};
+	{% for samplingpoint in facilities %}
+	 samplingpointByID[{{samplingpoint.id}}] = {name: "{{samplingpoint.name}}", 
+	                                            lat: {{samplingpoint.point.y}},
+	                                            lng: {{samplingpoint.point.x}},
+	                                            };
+	{% endfor %}
     $(document).ready(function(){
         // initialise the google maps
         var map = new GMap2(document.getElementById('map'));
-        var southAfrica = new GLatLng(-6.369028,34.888822);
-        map.setCenter(southAfrica, 5);
+        var location = new GLatLng(-6.369028,34.888822);
+        map.setCenter(location, 6);
         map.setUIToDefault();
 
         // add samplingpoint marker to the map
@@ -44,24 +43,6 @@
             var sPoint = samplingpointByID[i];
             var point = new GLatLng(sPoint.lat, sPoint.lng);
 
-            // select marker type
-            /*
-            if (sPoint.lat > -29){
-                var greenIcon = new GIcon(G_DEFAULT_ICON);
-                greenIcon.image = "{{MEDIA_URL}}/hq/green_MarkerG.png";
-
-                // Set up our GMarkerOptions object
-                markerOptions = { icon:greenIcon };
-            }
-
-            if (sPoint.lat < -29){
-                var orangeIcon = new GIcon(G_DEFAULT_ICON);
-                orangeIcon.image = "{{MEDIA_URL}}/hq/orange_MarkerO.png";
-
-                // Set up our GMarkerOptions object
-                markerOptions = { icon:orangeIcon };
-            }
-            */
             var orangeIcon = new GIcon(G_DEFAULT_ICON);
             orangeIcon.image = "{{MEDIA_URL}}/hq/green_MarkerG.png";
 
@@ -103,8 +84,8 @@
 
 <style media="screen" type="text/css">
     #map {
-        width: 600px;
-        height: 400px;
+        width: 700px;
+        height: 500px;
         border: 1px solid #999;
         margin: 0 auto;
     }
@@ -114,8 +95,11 @@
 
 
 {% block content %}
+<h1>
+	<a href="">Map View</a>
+</h1>
 
-<div id="message"style="display:none;">Test message</div>
+<div id="message"style="display:none;">Ki Hop!</div>
 <div id=map></div>
 
 {% endblock %}
