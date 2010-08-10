@@ -95,7 +95,9 @@
 	<h2>Options</h2>
 	<form method="post" action="">
 		{% for field in form %}
-	    	{{ field.errors }}
+	    	<div class="warning">
+	    		{{ field.errors }}
+	    	</div>
             {{ field.label_tag }}
 	  		{{ field }} <br />
 		{% endfor %}

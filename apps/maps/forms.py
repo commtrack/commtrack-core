@@ -5,7 +5,6 @@ from django.forms.fields import CharField
 from resources.models import Status
 
 FILTER_CHOICES = (
-                    ('all', 'All'),
                     ('res', 'Resources'),
                     ('faci', 'Facilities'),
                   )
@@ -14,8 +13,8 @@ class FilterChoiceForm(forms.Form):
     '''
         filtering maps data(marker) to certain required data.
     '''
+    filter_type = forms.CharField(max_length=4,widget=forms.Select(choices=FILTER_CHOICES))
     start_date = forms.DateField(widget = widgets.AdminDateWidget())
     end_date = forms.DateField(widget = widgets.AdminDateWidget())
-    filter_status = forms.ModelMultipleChoiceField(queryset=Status.objects.all())
-    filter_type = forms.SelectMultiple(choices=FILTER_CHOICES)
+    resource_status = forms.ModelMultipleChoiceField(queryset=Status.objects.all())
     

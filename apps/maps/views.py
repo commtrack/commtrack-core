@@ -23,7 +23,7 @@ def index(req):
         form = FilterChoiceForm(req.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
             # saving the form data is not cleaned
-            form.save()
+            #form.save()
             return HttpResponse('You just submit a form..Horray!')
     else:
         form = FilterChoiceForm() # An unbound form
