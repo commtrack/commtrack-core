@@ -266,9 +266,13 @@ def edit_resources(req, pk):
 
                 status = Status.objects.get(pk = req.POST.get("status",""))
                 resource.status = status
-
-                facility = Facility.objects.get(pk = req.POST.get("facility",""))
-                resource.facility = facility
+                
+                pk = req.POST.get("facility","")
+                if pk != "":
+                    facility = Facility.objects.get(pk = req.POST.get("facility",""))
+                    resource.facility = facility
+                else:
+                    resource.facility = None
 
                 resource.name = req.POST.get("name","")
                 resource.code = req.POST.get("code","")

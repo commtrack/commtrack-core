@@ -15,13 +15,25 @@ from domain.decorators import login_and_domain_required
 from rapidsms.webui.utils import render_to_response, paginated
 from facilities.models import Facility
 from maps.utils import encode_myway
+from maps.forms import FilterChoiceForm
 @login_and_domain_required
 def index(req):
     facilities = Facility.objects.all().order_by('name')
-    
+    if req.method == 'POST': # If the form has been submitted...
+        form = FilterChoiceForm(req.POST) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+            # saving the form data is not cleaned
+            form.save()
+            return HttpResponse('You just submit a form..Horray!')
+    else:
+        form = FilterChoiceForm() # An unbound form
+
     return render_to_response(req, 
                               'mapindex.html',
-                              {'facilities': facilities},                              
+                              {
+                               'facilities': facilities,
+                               'form': form,
+                               },                              
                               )
 
 @login_and_domain_required

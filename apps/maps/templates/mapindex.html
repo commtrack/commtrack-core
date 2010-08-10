@@ -81,16 +81,6 @@
         
     });
 </script>
-
-<style media="screen" type="text/css">
-    #map {
-        width: 700px;
-        height: 500px;
-        border: 1px solid #999;
-        margin: 0 auto;
-    }
-    #message { position:absolute; padding:10px; background:#555; color:#fff; width:75px; }
-</style>
 {% endblock %}
 
 
@@ -101,5 +91,16 @@
 
 <div id="message"style="display:none;">Ki Hop!</div>
 <div id=map></div>
+<div id="options">
+	<h2>Options</h2>
+	<form method="post" action="">
+		{% for field in form %}
+	    	{{ field.errors }}
+            {{ field.label_tag }}
+	  		{{ field }} <br />
+		{% endfor %}
+		<input type='submit' value='Filter' />
+	</form>
+</div>
 
 {% endblock %}

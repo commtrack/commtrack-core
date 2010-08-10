@@ -38,6 +38,28 @@ body {
 .row_even {background: #FFF;}
 .row_odd {background: #E5ECF9;}
 
+/*******************************************
+ ** Map app css
+ *******************************************/
+#map {
+        width: 700px;
+        height: 500px;
+        border: 1px solid #999;
+        /*margin: 0 auto;*/
+        float: left;
+    }
+    
+    #message { position:absolute; padding:10px; background:#555; color:#fff; width:75px; }
+    
+    #options{
+    	border: 1px solid #999;
+    	height: 500px;
+    	background: #E5ECF9;
+    }
+    
+    #options h1{
+    	text-align: center;
+    }
 
 /*******************************************
  ** Links

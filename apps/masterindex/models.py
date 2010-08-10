@@ -33,6 +33,6 @@ def update_masterindex(sender, instance, created, **kwargs):
                 facility = instance.facility,
                 domain = instance.facility.domain,
                 ).save()
-    
+        
 # signal to trigger masterindex update each time a Resource is saved
 post_save.connect(update_masterindex, sender=Resource)
