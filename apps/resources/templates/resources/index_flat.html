@@ -48,7 +48,7 @@
 
 	<tbody>
 		{% for resource in resources.object_list %}
-			<tr>
+			<tr class="{% cycle 'row_even' 'row_odd' %}">
                                 <td>{{resource.date_added|date:"d-M-Y" }}</td>
                                 <td>{{resource.name}}</td>
                                 <td>{{resource.code}}</td>

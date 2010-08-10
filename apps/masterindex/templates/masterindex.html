@@ -43,7 +43,7 @@
 
 	<tbody>
 		{% for index in indexies.object_list %}
-			<tr>
+			<tr class="{% cycle 'row_even' 'row_odd' %}">
                                 <td>{{index.resource}}</td>
                                 <td>{{index.facility}}</td>
                                 <td>{{index.resource.status}}</td>

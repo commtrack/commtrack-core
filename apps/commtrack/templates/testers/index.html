@@ -62,7 +62,7 @@
 		</thead>
 		<tbody>{% if reporters.object_list %}{% for reporter in reporters.object_list %}
 			
-                        <tr>
+                        <tr class="{% cycle 'row_even' 'row_odd' %}">
 				<!--<td><a href="{% self_link "reporter" reporter.pk %}"{% if reporter.full_name %}>{{ reporter.full_name }}{% else %} class="unknown">Unknown{% endif %}</a></td>-->
 				<td><a href="/testers/{{ reporter.pk }}"{% if reporter.last_name %}>{{ reporter.last_name }}{% else %} class="unknown">Unknown{% endif %}</a></td>
                                 <td><a href="/testers/{{ reporter.pk }}"{% if reporter.first_name %}>{{ reporter.first_name }}{% else %} class="unknown">Unknown{% endif %}</a></td>

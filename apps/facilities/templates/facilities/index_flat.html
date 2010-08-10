@@ -48,7 +48,7 @@
 
 	<tbody>
 		{% for facility in facilities.object_list %}
-			<tr>
+			<tr class="{% cycle 'row_even' 'row_odd' %}">
                                 <td>{{facility.added_date|date:"d-M-Y" }}</td>
                                 <td>{{facility.name}}</td>
                                 <td>{{facility.location}}</td>
