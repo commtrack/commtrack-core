@@ -1,0 +1,77 @@
+{% extends "hq/base.html" %}
+{% load i18n %}
+{% load pagination-tags %}
+
+{% block title %}{% trans "SMS Notifications" %}{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{MEDIA_URL}}/graphing/flot/jquery.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}/graphing/flot/jquery.flot.js"></script>
+    <script type="text/javascript" src="{{MEDIA_URL}}/aquatest/js/selector.js"></script>
+{% endblock %}
+
+{% block org_content %}
+<div class="module">
+	<h2>SMS Notifications</h2>
+        <br>
+        <div style="text-align:right;">
+            <a href="/smsnotification/add" class="add"> Add a new SMS notification </a>
+        </div>
+        <table>
+		<thead>
+			<tr>	
+				<th scope="col">Region</th>
+				<th scope="col">Facility name(s)</th>
+                <th scope="col">Authorised Personnel</th>
+				<th scope="col">Notification type</th>
+				<th scope="col">Checked Status</th>
+                <th scope="col">Digest</th>
+                <th scope="col">Actions</th>
+			</tr>
+		</thead>
+                <tbody>{% if notifications.object_list %}{% for notification in notifications.object_list %}
+			<tr class="{% cycle 'rowo' 'rowt' %}">
+				<td> 
+					Region
+				</td>
+				<td> 
+					{% for point in notification.sampling_point.all %}
+						{{ point }} <br />
+					{% endfor %}
+				</td>
+				<td>{{ notification.authorised_personnel.full_name }}</td>
+                <td>{{ notification.notification_type }}</td>
+				<td>
+					{% for stat in notifiacation.notification_status.all %}
+						{{ stat }} <br />
+					{% endfor %}
+				</td>
+                <td>
+                	{% if notification.digest %}
+                		<img src="{{MEDIA_URL}}/hq/accept.png">
+                	{% else %}
+                		<img src="{{MEDIA_URL}}/hq/decline.png">
+                	{% endif %}
+                </td>
+                                <td>
+                                    <a href="/smsnotification/{{ notification.pk }}">Edit</a> |
+                                    <a href="/smsnotification/{{ notification.pk }}/delete">Delete</a>
+                                </td>
+			</tr>{% endfor %}{% else %}
+                        <tr>
+                            <td> No any notifications. 
+                                <a href="/smsnotification/add" >Add a new sms notification</a></td>
+                        </tr>
+                        {% endif %}
+                </tbody>
+                <tfoot>
+			<tr>
+				<td colspan="3">
+					{% paginator notifications %}
+				</td>
+			</tr>
+		</tfoot>
+        </table>
+</div>
+
+
+{% endblock %}
