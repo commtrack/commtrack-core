@@ -1,7 +1,9 @@
 {% extends "layout-split-2.html" %}
+{% load i18n %}
 {% load pagination-tags %}
 {% load region-tags %}
 
+{% block title %}{% trans "SMS Notifications" %}{% endblock %}
 {% block hq-stylesheets %}
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/domain/stylesheets/sfb.css?version=3"/>
 {% endblock hq-stylesheets %}
