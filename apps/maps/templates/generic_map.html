@@ -34,7 +34,7 @@
         // initialise the google maps
         var map = new GMap2(document.getElementById('map'));
         var location = new GLatLng(-6.369028,34.888822);
-        map.setCenter(location, 6);
+        //map.setCenter(location, 6);
         map.setUIToDefault();
 
         // add point marker to the map
@@ -43,7 +43,8 @@
         for (var i in pointByID) {
             var sPoint = pointByID[i];
             var point = new GLatLng(sPoint.lat, sPoint.lng);
-
+            map.setCenter(point, 13);
+            
             var orangeIcon = new GIcon(G_DEFAULT_ICON);
             orangeIcon.image = "{{MEDIA_URL}}/hq/green_MarkerG.png";
 
@@ -89,8 +90,19 @@
 <h1>
 	<a href="">Map View</a>
 </h1>
-
-<div id="message"style="display:none;">Ki Hop!</div>
+<div id="subheading">
+	<ul>
+		<li><a href="/masterindex"><b><<--Back</b></a></li>
+		<li><a href="/mapview"><b>Map</b></a></li>
+		<li>&nbsp;</li>
+	</ul> 
+</div>
+<div id="message"style="display:none;">
+		Name: {{ resource.name }} <br />
+		Status: {{ resource.status }} <br />
+		Facility: {{ resource.facility }} <br />
+		Region: {{ resource.facility.location }} <br />
+</div>
 <div id=map></div>
 <div id="options">
 	<h2>Infomation</h2>
