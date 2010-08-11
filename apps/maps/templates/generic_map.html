@@ -23,12 +23,13 @@
     
 <script  type="text/javascript">
 	var pointByID = {};
-	{% for point in facilities %}
-	 pointByID[{{point.id}}] = {name: "{{point.name}}", 
-	                                            lat: {{point.point.y}},
-	                                            lng: {{point.point.x}},
-	                                            };
-	{% endfor %}
+	var pointByID = {};
+	pointByID[{{facility.id}}] = {name: "{{facility.name}}", 
+	                                           lat: {{facility.point.y}},
+	                                           lng: {{facility.point.x}},
+	                                           };
+	 
+	 
     $(document).ready(function(){
         // initialise the google maps
         var map = new GMap2(document.getElementById('map'));
@@ -92,17 +93,14 @@
 <div id="message"style="display:none;">Ki Hop!</div>
 <div id=map></div>
 <div id="options">
-	<h2>Options</h2>
-	<form method="post" action="">
-		{% for field in form %}
-	    	<div class="warning">
-	    		{{ field.errors }}
-	    	</div>
-            {{ field.label_tag }}
-	  		{{ field }} <br />
-		{% endfor %}
-		<input type='submit' value='Filter' />
-	</form>
+	<h2>Infomation</h2>
+	<h3>
+		Name: {{ resource.name }} <br />
+		Status: {{ resource.status }} <br />
+		Facility: {{ resource.facility }} <br />
+		Region: {{ resource.facility.location }} <br />
+		
+	</h3>
 </div>
 
 {% endblock %}
