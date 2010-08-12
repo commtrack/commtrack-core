@@ -12,7 +12,7 @@ class App (rapidsms.app.App):
     #   pattern: resource update resource_code curr_status
 
     pattern = re.compile(r'^resource\s+(request|update)\s+([a-zA-Z0-9_]*)\s+(\w*)',re.IGNORECASE)
-    
+    #pattern = re.compile(r'^resource',re.IGNORECASE)
     def start (self):
         """Configure your app in the start phase."""
         pass
@@ -24,6 +24,7 @@ class App (rapidsms.app.App):
     def handle (self, message):
         """Add your main application logic in the handle phase."""
         response = self.pattern.findall(message.text)
+        print "***********************"
         if response:
             entry = response[0]
             entry_time = datetime.now()

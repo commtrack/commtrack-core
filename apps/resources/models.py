@@ -55,19 +55,12 @@ class Status(models.Model):
 
 class Resource(models.Model):
     '''
-    A resource is an object with........
+    A resource is an object
     '''
     name = models.CharField(max_length=50)
 #   A resource can be in only one category this currently works.. but will change to ManyToMany
     category = models.ForeignKey(ResourceCategory, blank=True, null=True)
     code = models.CharField(max_length=256, help_text='unique identifier of the resource')
-
-#    add domin to a resource to allow 
-#    each domain to have it's own resource before assignin any to a facility
-#    domain = models.ForeignKey(Domain)
-
-#   TODO: location shuld be linkin to a facility, create a facility app.
-#   a facility shuld be in a domain.
     facility = models.ForeignKey(Facility, blank=True, null=True)
     status = models.ForeignKey(Status)
     description = models.CharField(max_length=256, null=True, blank=True)
@@ -111,9 +104,3 @@ class ResourceSupplyRequest(models.Model):
 
     def __str__(self):
         return '%s requested by %s' % (self.resource.name, self.user)
-    
-#    def set_status(self,status=0):
-#        ''' A function to set status'''
-#        self.status = REQUEST_STATUS_CHOICES[status]
-#        self.save()
-#        return True

@@ -24,9 +24,9 @@
 <script  type="text/javascript">
 	var pointByID = {};
 	var pointByID = {};
-	pointByID[{{facility.id}}] = {name: "{{facility.name}}", 
-	                                           lat: {{facility.point.y}},
-	                                           lng: {{facility.point.x}},
+	pointByID[{{point.id}}] = {name: "{{point.name}}", 
+	                                           lat: {{point.point.y}},
+	                                           lng: {{point.point.x}},
 	                                           };
 	 
 	 
@@ -82,7 +82,7 @@
 
         
     });
-</script>
+</script>map/resource/
 {% endblock %}
 
 
@@ -92,7 +92,7 @@
 </h1>
 <div id="subheading">
 	<ul>
-		<li><a href="/masterindex"><b><<--Back</b></a></li>
+		<li><a href=""><b><< Back</b></a></li>
 		<li><a href="/mapview"><b>Map</b></a></li>
 		<li>&nbsp;</li>
 	</ul> 

@@ -45,11 +45,11 @@ def map_resource(req,pk):
         # get a coordinate for the resource
         # currently depends on the assigned facility
         # TODO: allow resource to have independent coordinates 
-        facility = resource.facility   
+        point = resource.facility   
     return render_to_response(req,
                               'generic_map.html', 
                               {
-                               'facility': facility,
+                               'point': point,
                                'resource': resource,
                                }
                               )
