@@ -13,7 +13,7 @@ here its easier to live to just change the ui to create the feelin of tester-->
 <!--<div class="module">-->
 <div class="span-12" style="margin-left:auto; margin-right:auto; float:none">
     <form class="sfb clear" method="post" id="fm-facilitys-add" action="/facilities/{% if facility %}{{ facility.pk }}{% else %}add{% endif %}">
-        <h3>{% if facility %}Deleting Facility : {{ facility.name }} at {{ facility.location }}{% endif %}</h3>
+        <h3>{% if facility %}Are you sure... ?<br />Deleting facility : {{ facility.name }} in {{ facility.location }}{% endif %}</h3>
         <ul>
 	        <li>Personnel Number: {{ personnel }}</li>
 	        <li>Resources Assigned: {{ resources }}</li>

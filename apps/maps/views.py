@@ -26,7 +26,19 @@ def index(req):
         if form.is_valid(): # All validation rules pass
             # saving the form data is not cleaned
             #form.save()
-            return HttpResponse('You just submit a form..Horray!')
+            start_date = form.cleaned_data["start_date"]
+            end_date = form.cleaned_data['end_date']
+            status = form.cleaned_data['resource_status']
+            
+            resources = Resource.objects.filter(facility__in = facilities)
+            resources = resources.filter(status__in = status)
+            
+            facilities = []
+            for resource in resources:
+                facilities.append(resource.facility)
+            
+            print 'START: %s -------------- END: %s ---------- STATUS: %s' % (start_date, end_date, status)
+            #return HttpResponse('You just submit a form..Horray!')
     else:
         form = FilterChoiceForm() # An unbound form
 
