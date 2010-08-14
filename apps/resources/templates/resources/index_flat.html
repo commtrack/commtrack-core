@@ -41,7 +41,8 @@
 			{% endifequal %}
 		{% endfor%}
 	
-                <!--An action table head-->
+                <!--Extra table headings-->
+                <th>Map</th>
                 <th>Action</th>
         </thead>
 
@@ -54,9 +55,12 @@
                                 <td>{{resource.code}}</td>
                                 <td>{{resource.facility}}</td>
                                 <td>{{resource.status}}</td>
+                                <td>
+                                	<a href="map/resource/{{resource.id}}"><img src='/static/hq/white.png' /></a>
+                                </td>
                                 <!--Action on a resource edit, delete-->
                                 <td>
-                                    <a href="/resources/{{ resource.pk }}">Edit</a> |
+                                    <a href="/resources/{{ resource.pk }}">Edit</a> <br />
                                     <a href="/resources/{{ resource.pk }}/delete">Delete</a>
                                     <!--<button name="Edit" type="submit" value="Edit">Edit</button>
                                     <button name="Delete" type="submit" value="Edit">Delete</button>-->

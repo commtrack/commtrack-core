@@ -11,6 +11,7 @@ here its easier to live to just change the ui to create the feelin of tester-->
 
 {% block right %}
 <!--<div class="module">-->
+<a href="/resources"><<-- Back</a>
 <div class="span-12" style="margin-left:auto; margin-right:auto; float:none">
     <form class="sfb clear" method="post" id="fm-resources-add" action="/resources/{% if resource %}{{ resource.pk }}{% else %}add{% endif %}">
         <h3>{% if resource %}Edit Resource - {{ resource.name }} [{{ resource.code }}] {% else %}Add a resource{% endif %}</h3>
@@ -93,7 +94,6 @@ here its easier to live to just change the ui to create the feelin of tester-->
 <div class="span-12" style="margin-left:auto; margin-right:auto; float:none">
     <div class="sfb clear">
         <br>
-        <a href="/resources"><-- back to resources list</a>
     </div>
 </div>
 {% endblock %}

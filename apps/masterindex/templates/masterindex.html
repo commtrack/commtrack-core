@@ -47,7 +47,9 @@
                                 <td>{{index.resource}}</td>
                                 <td>{{index.facility}}</td>
                                 <td>{{index.resource.status}}</td>
-                                <td>Map</td>
+                                <td>
+                                <a href="map/resource/{{index.resource.id}}"><img src='/static/hq/white.png' /></a>
+                                </td>
 			</tr>
 		{% endfor %}
 	</tbody>

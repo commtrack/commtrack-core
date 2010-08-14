@@ -40,12 +40,14 @@ import hq.reporter.metastats as metastats
 
 import hq.reporter.inspector as repinspector
 import hq.reporter.metadata as metadata
+from hq.models import ReporterProfile
 
 from reporters.utils import *
 from reporters.views import message, check_reporter_form, update_reporter
 from reporters.models import *
 
 from facilities.models import *
+from resources.models import Resource
 
 facilities_set = False
 
@@ -274,6 +276,44 @@ def delete_facilities(req, pk):
     return message(req,
         "A facility %d deleted" % (id),
         link="/facilities")
+
+def confirm(req, pk):
+    def get_reporter(current_user, station):
+        # todo: get the testers in the system with the same
+        # domain as the login user.
+        rep_profile = ReporterProfile.objects.filter(domain=current_user.selected_domain)
+        rep_profile = rep_profile.filter(facility=station)
+        reporters = []
+    
+        if rep_profile:
+            for rep in rep_profile:
+                reporter = rep.reporter
+                reporters.append(reporter)
+        return reporters
+    
+    def get_resource(station):
+        resources = Resource.objects.filter(facility = station)
+        return resources
+
+    template_name = 'facilities/confirm.html'
+    
+    facility = get_object_or_404(Facility, pk=pk)
+    if facility:
+        personnel = len(get_reporter(req.user, facility))
+        resources = get_resource(facility).count()
+        
+    else:
+        return message(req,
+        "A facility not found!" % (id),
+        link="/facilities")
+    
+    return render_to_response(req,
+                              template_name,
+                              {'facility':facility,
+                               'personnel':personnel,
+                               'resources':resources,
+                               }
+                              )
 
 def comma(string_or_list):
     """ TODO - this could probably go in some sort of global util file """

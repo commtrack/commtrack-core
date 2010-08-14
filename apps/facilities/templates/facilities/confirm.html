@@ -1,0 +1,33 @@
+{% extends "layout-split-2.html" %}
+{% load pagination-tags %}
+{% load region-tags %}
+
+{% block hq-stylesheets %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/domain/stylesheets/sfb.css?version=3"/>
+{% endblock hq-stylesheets %}
+
+<!--Reporter and ReporterProfile will make up a tester and tie him to a domain
+here its easier to live to just change the ui to create the feelin of tester-->
+
+{% block right %}
+<!--<div class="module">-->
+<div class="span-12" style="margin-left:auto; margin-right:auto; float:none">
+    <form class="sfb clear" method="post" id="fm-facilitys-add" action="/facilities/{% if facility %}{{ facility.pk }}{% else %}add{% endif %}">
+        <h3>{% if facility %}Are you sure... ?<br />Deleting facility : {{ facility.name }} in {{ facility.location }}{% endif %}</h3>
+        <ul>
+	        <li>Personnel Number: {{ personnel }}</li>
+	        <li>Resources Assigned: {{ resources }}</li>
+        </ul>
+        
+        <div class="submit"> 
+            <input type="submit" value="Cancel" />{% if facility %}
+            <input type="submit" name="delete" value="Delete facility" />{% endif %}
+        </div>
+    </form>
+</div>
+<div class="sfb clear">&zwnj;</div>
+<div class="span-12" style="margin-left:auto; margin-right:auto; float:none">
+    <div class="sfb clear">
+    </div>
+</div>
+{% endblock %}

@@ -14,7 +14,7 @@ here its easier to live to just change the ui to create the feelin of tester-->
 
 {% block right %}
 <!--<div class="module">-->
-<a href="/testers"><<-- back to user list</a>
+<a href="/testers"><< Back</a>
 <div class="span-12" style="margin-left:auto; margin-right:auto; float:none">
     <form class="sfb clear" method="post" id="fm-rep-add" action="/testers/{% if reporter %}{{ reporter.pk }}{% else %}add{% endif %}">
         <h3>{% if reporter %}Edit - {{ reporter }}{% else %}Add a Tester{% endif %}</h3>
