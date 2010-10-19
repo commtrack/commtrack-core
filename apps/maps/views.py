@@ -37,8 +37,6 @@ def index(req):
             for resource in resources:
                 facilities.append(resource.facility)
             
-            print 'START: %s -------------- END: %s ---------- STATUS: %s' % (start_date, end_date, status)
-            #return HttpResponse('You just submit a form..Horray!')
     else:
         form = FilterChoiceForm() # An unbound form
 
