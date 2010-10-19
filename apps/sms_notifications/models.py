@@ -25,7 +25,7 @@ class SmsNotification(models.Model):
     '''
     Facility = models.ManyToManyField(Facility, help_text="Hold down Ctrl for multiple selections")
     authorised_personnel = models.ForeignKey(Reporter)
-    notification_type = models.ForeignKey(NotificationChoice)
+    #notification_type = models.ForeignKey(NotificationChoice)
     notification_status = models.ManyToManyField(Status)
     digest = models.BooleanField(default=False)
     modified = models.DateTimeField(null=True, blank=True)
