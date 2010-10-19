@@ -1,5 +1,9 @@
+from django.shortcuts import get_object_or_404
+
 from domain.decorators import login_and_domain_required
 from rapidsms.webui.utils import render_to_response, paginated
+from reporters.views import message
+
 from sms_notifications.models import SmsNotification, NotificationChoice
 from sms_notifications.forms import SmsNotificationForm 
 
@@ -65,7 +69,7 @@ def delete_notifications(req, pk):
     notification = get_object_or_404(SmsNotification, pk=pk)
     notification.delete()
 
-    transaction.commit()
+    #transaction.commit()
     id = int(pk)
     return message(req,
         "SMS Notification %d deleted" % (id),

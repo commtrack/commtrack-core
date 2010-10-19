@@ -175,8 +175,8 @@ DOMAIN_NOT_ADMIN_REDIRECT_PAGE_NAME = homepage
 
 
 # email settings: these ones are the custom hq ones
-EMAIL_LOGIN=allen.machary@gmail.com
-EMAIL_PASSWORD=
+EMAIL_LOGIN = commtrack.itido@gmail.com
+EMAIL_PASSWORD =
 EMAIL_SMTP_HOST=smtp.gmail.com
 EMAIL_SMTP_PORT=587
 
@@ -186,7 +186,9 @@ EMAIL_SMTP_PORT=587
 # above
 EMAIL_HOST = smtp.gmail.com
 EMAIL_PORT = 587
-EMAIL_HOST_USER = user@domain.org
-EMAIL_HOST_PASSWORD = changeme
+EMAIL_HOST_USER = commtrack.itido@gmail.com
+EMAIL_HOST_PASSWORD = 
 EMAIL_USE_TLS = True
 
+#### GOOGLE MAP SETTINGS #####
+GMapKey = ABQIAAAAn5FfzBFpv7d83XAbTm4LwRTQIIgBEZc4TlgHsydLZYPU_4Z3rxTAfgI-CUUio0GWEoKcNMpuZSRG_A
